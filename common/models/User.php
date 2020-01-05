@@ -117,6 +117,18 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param string $token
+     * @return static|null
+     */
+    public static function findByLogin($login)
+    {
+        static::findOne([
+            'login' => $login,
+            'status' => self::STATUS_INACTIVE
+        ]);
+    }
+
+    /**
      * Finds out if password reset token is valid
      *
      * @param string $token password reset token
