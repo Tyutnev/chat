@@ -117,14 +117,14 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param string $token
+     * @param string $login
      * @return static|null
      */
     public static function findByLogin($login)
     {
-        static::findOne([
+        return static::findOne([
             'login' => $login,
-            'status' => self::STATUS_INACTIVE
+            'status' => self::STATUS_ACTIVE
         ]);
     }
 
