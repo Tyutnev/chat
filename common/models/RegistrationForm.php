@@ -24,7 +24,7 @@ class RegistrationForm extends Model
             [['login', 'username', 'password', 'email'], 'required'],
             [['login', 'username', 'password'], 'string', 'length' => [8, 30]],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => User::className()]
+            [['login', 'email'], 'unique', 'targetClass' => User::className()]
         ];
     }
 
@@ -38,6 +38,7 @@ class RegistrationForm extends Model
             $user->username = $this->username;
             $user->setPassword($this->password);
             $user->email = $this->email;
+            $user->status = User::STATUS_ACTIVE;
             $user->generateAuthKey();
 
             return $user->save();
