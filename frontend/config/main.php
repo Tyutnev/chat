@@ -41,7 +41,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/login' => 'site/login',
-                '/exit' => 'site/exit'
+                '/exit' => 'site/exit',
+                '/detail/<id:\d+>' => 'profile/detail'
             ],
         ],
     ],

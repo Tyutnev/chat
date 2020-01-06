@@ -56,14 +56,16 @@ class SiteController extends Controller
     public function actionRegistration()
     {
         $registrationForm = new RegistrationForm();
+        
+        $formData = Yii::$app->request->post();
+        $formName = 'RegistrationForm';
 
-        if(Yii::$app->request->isAjax && $registrationForm->load(Yii::$app->request->post()))
+        if(Yii::$app->request->isAjax && $registrationForm->load($formData))
         {
             if($registrationForm->save())
             {
                 $loginForm = new LoginForm();
-                $loginForm->login = $registrationForm->login;
-                $loginForm->password = $registrationForm->password;
+                $loginForm->load($formData, $formName);
                 $loginForm->login();
 
                 echo json_encode(json_encode(['status' => 'success']));
@@ -72,6 +74,14 @@ class SiteController extends Controller
             }
             echo json_encode(['status' => 'error', 'errors' => $registrationForm->getErrors()]);
             return;
+        }
+    }
+
+    public function actionIdentity()
+    {
+        if(Yii::$app->request->isAjax && !Yii::$app->user->isGuest)
+        {
+            echo Yii::$app->user->getIdentity()->getAuthKey();
         }
     }
 

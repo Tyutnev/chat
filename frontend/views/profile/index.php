@@ -15,10 +15,6 @@
             </div>
             <!-- END SIDEBAR USER TITLE -->
             <!-- SIDEBAR BUTTONS -->
-            <div class="profile-userbuttons">
-                <button type="button" class="btn btn-success btn-sm">Follow</button>
-                <button type="button" class="btn btn-danger btn-sm">Message</button>
-            </div>
             <!-- END SIDEBAR BUTTONS -->
             <!-- SIDEBAR MENU -->
             <div class="profile-usermenu">
@@ -34,6 +30,11 @@
                         Чат </a>
                     </li>
                     <li>
+                        <a href="/follow-order" class="list-order">
+                        <i class="glyphicon glyphicon-user"></i>
+                        Заявки в друзья </a>
+                    </li>
+                    <li>
                         <a href="/exit">
                         <i class="glyphicon glyphicon-ok"></i>
                         Выход </a>
@@ -41,45 +42,9 @@
                 </ul>
             </div>
             <!-- END MENU -->
-            
-        <div class="portlet light bordered">
-        <!-- STAT -->
-        <div class="row list-separated profile-stat">
-            <div class="col-md-4 col-sm-4 col-xs-6">
-                <div class="uppercase profile-stat-title"> 37 </div>
-                <div class="uppercase profile-stat-text"> Projects </div>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-6">
-                <div class="uppercase profile-stat-title"> 51 </div>
-                <div class="uppercase profile-stat-text"> Tasks </div>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-6">
-                <div class="uppercase profile-stat-title"> 61 </div>
-                <div class="uppercase profile-stat-text"> Uploads </div>
-            </div>
-        </div>
-        <!-- END STAT -->
-            <div>
-            <h4 class="profile-desc-title">About Jason Davis</h4>
-            <span class="profile-desc-text"> Lorem ipsum dolor sit amet diam nonummy nibh dolore. </span>
-            <div class="margin-top-20 profile-desc-link">
-                <i class="fa fa-globe"></i>
-                <a href="https://www.apollowebstudio.com">apollowebstudio.com</a>
-            </div>
-            <div class="margin-top-20 profile-desc-link">
-                <i class="fa fa-twitter"></i>
-                <a href="https://www.twitter.com/jasondavisfl/">@jasondavisfl</a>
-            </div>
-            <div class="margin-top-20 profile-desc-link">
-                <i class="fa fa-facebook"></i>
-                <a href="https://www.facebook.com/">JasonDavisFL</a>
-            </div></div></div>                       
-        </div>
-    </div>
-    <div class="col-md-9">
-        <div class="profile-content">
-            Some user related content goes here...
-        </div>
-    </div>
 </div>
+</div>
+
+<div class="container-profile container-list-follow">
+
 </div>
