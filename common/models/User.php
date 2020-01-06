@@ -129,6 +129,28 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param int $id
+     * @return static|null
+     */
+    public static function findById($id)
+    {
+        return static::findOne([
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * @param string $auth_key
+     * @return int
+     */
+    public static function findIdByAuthKey($authKey)
+    {
+        return self::find()->select(['id'])->
+                             where(['auth_key' => $authKey])->
+                             scalar();
+    }
+
+    /**
      * Finds out if password reset token is valid
      *
      * @param string $token password reset token
@@ -220,5 +242,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function canFollow()
+    {
+        return $this->id != Yii::$app->user->getId();
     }
 }
