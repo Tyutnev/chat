@@ -16,7 +16,6 @@ class AppAsset extends AssetBundle
         'css/login.css'
     ];
     public $js = [
-        'js/webSocket.js',
         'js/login.js'
     ];
     public $depends = [
