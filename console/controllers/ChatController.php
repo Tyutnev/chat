@@ -4,6 +4,8 @@ namespace console\controllers;
 
 use yii\console\Controller;
 use Ratchet\Server\IoServer;
+use Ratchet\Http\HttpServer;
+use Ratchet\WebSocket\WsServer;
 use console\daemon\WebSocketServer;
 
 /**
@@ -20,7 +22,11 @@ class ChatController extends Controller
         echo "Для отключения сокет сервера нажмите ctrl + c\n";
 
         (IoServer::factory(
-            new WebSocketServer(),
+            new HttpServer(
+                new WsServer(
+                    new WebSocketServer()
+                )
+            ),
             $port
         ))->run();
     }
