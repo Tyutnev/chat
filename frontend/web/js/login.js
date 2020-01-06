@@ -14,8 +14,8 @@ $('.ajax-form').on('beforeSubmit', (event) => {
         success: (html) => {
             html = JSON.parse(html);
 
-            if (html.status == 'success') {
-                console.log('Success');
+            if (html.status != 'error') {
+                window.location.href = '/profile';
                 return;
             }
 
