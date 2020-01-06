@@ -344,3 +344,8 @@ ul {
     color: #abb6c4;
     margin-right: 5px;
 }
+
+.container-follow-push {
+    display: none;
+    padding: 10px;
+}

@@ -33,6 +33,16 @@ else
 <body>
 <?php $this->beginBody() ?>
     <?= $content ?>
+    <div class="container-follow-push panel panel-default">
+        <span>Новая заявка в друзья</span>
+        <div class="inner-follow-push">
+            <h4><span class="follow-push-username"></span> хочет добавиться в друзья</h4>
+            <div>
+                <button class="btn btn-success">Принять</button>
+                <button class="btn btn-danger">Отклонить</button>
+            </div>
+        </div>
+    </div>
 <?php $this->endBody() ?>
 </body>
 </html>
