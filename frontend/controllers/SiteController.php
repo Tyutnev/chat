@@ -6,12 +6,35 @@ use Yii;
 use yii\web\Controller;
 use common\models\LoginForm;
 use common\models\RegistrationForm;
+use yii\filters\AccessControl;
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['login', 'registration', 'exit'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['exit'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['login', 'registration'],
+                        'roles' => ['?'],
+                    ]
+                ]
+            ],
+        ];
+    }
+
     public function actionLogin()
     {
         $loginForm = new LoginForm();
@@ -36,10 +59,27 @@ class SiteController extends Controller
 
         if(Yii::$app->request->isAjax && $registrationForm->load(Yii::$app->request->post()))
         {
-            echo $registrationForm->save() ? json_encode(['status' => 'success']) :
-                                              json_encode(['status' => 'error', 'errors' => $registrationForm->getErrors()]);
+            if($registrationForm->save())
+            {
+                $loginForm = new LoginForm();
+                $loginForm->login = $registrationForm->login;
+                $loginForm->password = $registrationForm->password;
+                $loginForm->login();
 
+                echo json_encode(json_encode(['status' => 'success']));
+
+                return;
+            }
+            echo json_encode(['status' => 'error', 'errors' => $registrationForm->getErrors()]);
             return;
+        }
+    }
+
+    public function actionExit()
+    {
+        if(Yii::$app->user->logout())
+        {
+            $this->goHome();
         }
     }
 }
