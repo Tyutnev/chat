@@ -52,7 +52,7 @@ socket.close = (event) => {
 
 $('.btn-follow').click((event) => {
     socket.send(JSON.stringify({
-        header: 'follow',
+        header: 'follow-push',
         id_user: $('.btn-follow').attr('href')
     }))
 })
