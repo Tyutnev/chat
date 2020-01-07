@@ -38,4 +38,25 @@ class Follow extends ActiveRecord
                              asArray()->
                              all();
     }
+
+    public static function getOrderById($id)
+    {
+        return self::find()->where(['id' => $id])->one();
+    }
+
+    public function getStatus()
+    {
+        if($this->status == self::STATUS_ORDER)
+        {
+            return 'Заявка в друзья отправлена';
+        }
+        if($this->status == self::STATUS_DECLINED)
+        {
+            return 'Пользователь отклонил заявку';
+        }
+        if($this->status == self::STATUS_FRENDS)
+        {
+            return 'У вас в друзьях';
+        }
+    }
 }
