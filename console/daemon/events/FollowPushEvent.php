@@ -26,7 +26,8 @@ class FollowPushEvent implements IEvent
             {
                 $client->send(json_encode([
                     'header' => 'follow-push',
-                    'from' => User::findById($from->id_user)->username
+                    'from' => User::findById($from->id_user)->username,
+                    'id_order' => Follow::find()->max('id')
                 ]));
             }
         }
