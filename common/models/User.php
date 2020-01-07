@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\Follow;
 
 /**
  * User model
@@ -247,5 +248,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function canFollow()
     {
         return $this->id != Yii::$app->user->getId();
+    }
+
+    public function isFriend($id)
+    {
+        return Follow::find()->where(['id_sender' => $id])->
+                          orWhere(['id_recipient' => $id])->
+                          one();    
     }
 }
