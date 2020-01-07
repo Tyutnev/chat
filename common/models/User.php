@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use common\models\Follow;
+use common\models\Connect;
 
 /**
  * User model
@@ -245,6 +246,12 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
+    public function bindConnect(\common\models\Connect $connect)
+    {
+        $connect->id_user = $this->getId();
+        return $connect->save();
+    }
+
     public function canFollow()
     {
         return $this->id != Yii::$app->user->getId();
@@ -255,5 +262,22 @@ class User extends ActiveRecord implements IdentityInterface
         return Follow::find()->where(['id_sender' => $id])->
                           orWhere(['id_recipient' => $id])->
                           one();    
+    }
+
+    public function isOnline()
+    {
+        return Connect::getConnect($this->id)->is_online;
+    }
+
+    public function getExitDate()
+    {
+        return Connect::getConnect($this->id)->exit_date;
+    }
+
+    public static function getLastUser()
+    {
+        return self::find()->limit(1)->
+                             orderBy(['id' => SORT_DESC])->
+                             one();
     }
 }
