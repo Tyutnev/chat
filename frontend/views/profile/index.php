@@ -20,7 +20,7 @@
             <div class="profile-usermenu">
                 <ul class="nav">
                     <li class="active">
-                        <a href="/">
+                        <a href="/profile">
                         <i class="glyphicon glyphicon-home"></i>
                         Профиль </a>
                     </li>

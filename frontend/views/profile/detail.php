@@ -16,7 +16,9 @@
             <!-- END SIDEBAR USER TITLE -->
             <!-- SIDEBAR BUTTONS -->
             <div class="profile-userbuttons">
-                <?php if($model->canFollow()): ?>
+                <?php if($follow = $model->isFriend(Yii::$app->user->getId())): ?>
+                    <button type="button" class="btn btn-success btn-sm"><?= $follow->getStatus() ?></button>
+                <?php elseif($model->canFollow()): ?>
                     <button type="button" class="btn btn-success btn-sm btn-follow" href="<?= $model->id ?>">Follow</button>
                 <?php endif; ?>
                 <button type="button" class="btn btn-danger btn-sm btn-chat" href="<?= $model->id ?>">Message</button>
