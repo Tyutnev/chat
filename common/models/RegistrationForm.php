@@ -4,6 +4,7 @@ namespace common\models;
 
 use yii\base\Model;
 use common\models\User;
+use common\models\Connect;
 
 /**
  * @property string $login
@@ -41,7 +42,11 @@ class RegistrationForm extends Model
             $user->status = User::STATUS_ACTIVE;
             $user->generateAuthKey();
 
-            return $user->save();
+            if($result = $user->save())
+            {
+                User::getLastUser()->bindConnect(new Connect());
+                return $result;
+            }
         }
 
         return false;
