@@ -5,6 +5,7 @@ namespace console\daemon\events;
 use Ratchet\ConnectionInterface;
 use console\daemon\events\IEvent;
 use common\models\User;
+use common\models\Connect;
 
 class HandshakeEvent implements IEvent
 {
@@ -19,6 +20,7 @@ class HandshakeEvent implements IEvent
         if($from->resourceId == $msg->resourceId)
         {
             $from->id_user = User::findIdByAuthKey($msg->hash);
+            Connect::online($from->id_user);
         }
     }
 }
