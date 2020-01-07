@@ -15,6 +15,13 @@
             </div>
             <!-- END SIDEBAR USER TITLE -->
             <!-- SIDEBAR BUTTONS -->
+            <div>
+                <?php if($model->isOnline()): ?>
+                    <span>Онлайн</span>
+                <?php else: ?>
+                    <span>Был в сети <?= Yii::$app->formatter->asDate($model->getExitDate(), 'long') ?></span>
+                <?php endif; ?>
+            </div>
             <div class="profile-userbuttons">
                 <?php if($follow = $model->isFriend(Yii::$app->user->getId())): ?>
                     <button type="button" class="btn btn-success btn-sm"><?= $follow->getStatus() ?></button>
