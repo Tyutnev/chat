@@ -37,7 +37,7 @@ socket.onmessage = (event) => {
      * Push-уведомление о заявки добавления в друзья
      */
     if (data.header == 'follow-push') {
-        $('.send-follow').click(confirmFollowHanlder);
+        $('.send-follow').click(confirmFollowHandler);
         $('.container-follow-push').fadeIn(300);
         $('.container-follow-push').attr('data-id', data.id_order);
         $('.container-follow-push').css('display', 'inline-block');

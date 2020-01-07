@@ -45,7 +45,7 @@ $('.list-order').click((event) => {
                     </div>
                 `);
 
-                $('.send-follow').click(confirmFollowHanlder);
+                $('.send-follow').click(confirmFollowHandler);
             })
         }
     })
