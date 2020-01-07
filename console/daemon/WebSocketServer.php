@@ -5,6 +5,7 @@ namespace console\daemon;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use console\daemon\events\EventHandler;
+use common\models\Connect;
 
 /**
  * Веб-сокет сервер
@@ -33,7 +34,15 @@ class WebSocketServer implements MessageComponentInterface
         EventHandler::handle($msg->header, $from, $msg, $this->clients);
     }
 
-    public function onClose(ConnectionInterface $conn) {
+    public function onClose(ConnectionInterface $conn) {    
+        foreach($this->clients as $client)
+        {
+            if($client->resourceId == $conn->resourceId)
+            {
+                Connect::offline($client->id_user);
+            }
+        }
+
         $this->clients->detach($conn);
         echo "Close, user has id: $conn->resourceId\n";
     }
