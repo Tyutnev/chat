@@ -17,7 +17,8 @@ class m200105_110010_create_message_table extends Migration
             'id_sender' => $this->integer()->notNull(),
             'id_recipient' => $this->integer()->notNull(),
             'content' => $this->text()->notNull(),
-            'created_at' => 'datetime DEFAULT NOW()',
+            'created_at' => $this->integer()->notNull(),
+            'is_last' => $this->integer()->notNull()->defaultValue(1),
             'status' => $this->integer(1)->defaultValue(1)
         ]);
 
