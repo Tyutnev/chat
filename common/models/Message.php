@@ -21,7 +21,7 @@ class Message extends ActiveRecord
      */
     const STATUS_DELETE = 3;
 
-    const IS_LAST = ['id_last' => 1];
+    const IS_LAST = ['is_last' => 1];
 
     const LIMIT = 10;
 
@@ -33,6 +33,7 @@ class Message extends ActiveRecord
     public function rules()
     {
         return [
+            ['content', 'required'],
             ['content', 'string', 'length' => [1, 255]]
         ];
     }
@@ -57,14 +58,29 @@ class Message extends ActiveRecord
 
     public static function getLastMessages($pivot = null)
     {
-        $state = self::find()->where(self::IS_LAST)->
-                      andWhere(['id_sender' => Yii::$app->user->getId()])->
-                      orWhere(['id_recipient' => Yii::$app->user->getId()])->
-                      andWhere(['!=', 'status', self::STATUS_DELETE]);
+        $state = self::find()->where(['id_sender' => Yii::$app->user->getId()])->
+                               orWhere(['id_recipient' => Yii::$app->user->getId()])->
+                               andWhere(self::IS_LAST)->
+                               andWhere(['!=', 'message.status', self::STATUS_DELETE]);
         
         if($pivot) $state->andWhere(['<', 'message.id', $pivot]);
 
-        return $state->orderBy(['id' => SORT_DESC])->limit(self::LIMIT)->all();
+        $lastMessages = $state->orderBy(['message.id' => SORT_DESC])->
+                       limit(self::LIMIT)->
+                       asArray()->
+                       all();
+
+        foreach($lastMessages as &$lastMessage)
+        {
+            if($lastMessage['id_sender'] != Yii::$app->user->getId())
+            {
+                $lastMessage['user'] = User::findById($lastMessage['id_sender'], true);
+                continue;
+            }
+            $lastMessage['user'] = User::findById($lastMessage['id_recipient'], true);
+        }
+
+        return $lastMessages;
     }
 
     public static function getMessages($hash_user, $pivot = null)
@@ -79,6 +95,9 @@ class Message extends ActiveRecord
         
         if($pivot) $state->andWhere(['<', 'message.id', $pivot]);
 
-        return $state->orderBy(['id' => SORT_DESC])->limit(self::LIMIT)->all();
+        return $state->orderBy(['id' => SORT_DESC])->
+                       limit(self::LIMIT)->
+                       asArray()->
+                       all();
     }
 }
