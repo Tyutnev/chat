@@ -1,3 +1,6 @@
+<?php
+use yii\widgets\ActiveForm;
+?>
 <div class="container">
 <h3 class=" text-center">Messaging</h3>
 <div class="messaging">
@@ -15,17 +18,6 @@
         </div>
         <div class="inbox_chat">
             
-        <div class="chat_list active_chat">
-            <div class="chat_people">
-            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            <div class="chat_ib">
-                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                <p>Test, which is a new approach to have all solutions 
-                astrology under one roof.</p>
-            </div>
-            </div>
-        </div>
-        
         </div>
     </div>
     <div class="mesgs">
@@ -71,8 +63,10 @@
         </div>
         <div class="type_msg">
         <div class="input_msg_write">
-            <input type="text" class="write_msg" placeholder="Type a message" />
+        <?php $form = ActiveForm::begin() ?>
+            <?= $form->field($model, 'content')->textInput(['class' => 'write_msg', 'placeholder' => 'Ваше сообщение'])->label(false) ?>
             <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+        <?php ActiveForm::end() ?>
         </div>
         </div>
     </div>
