@@ -16,6 +16,7 @@ class ProfileAsset extends AssetBundle
     public $js = [
         'js/profile.js',
         'js/webSocket.js',
+        'js/chat.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
