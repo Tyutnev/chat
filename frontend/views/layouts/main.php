@@ -10,7 +10,7 @@ use frontend\assets\ProfileAsset;
 /**
  * TODO: Переделать данное решение
  */
-if($this->context->id == 'profile')
+if($this->context->id != 'site')
 {
     ProfileAsset::register($this);
 }
