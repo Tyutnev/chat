@@ -81,7 +81,8 @@ class SiteController extends Controller
     {
         if(Yii::$app->request->isAjax && !Yii::$app->user->isGuest)
         {
-            echo Yii::$app->user->getIdentity()->getAuthKey();
+            echo Yii::$app->request->get('id') ? Yii::$app->user->getId() :
+                                                 Yii::$app->user->getIdentity()->getAuthKey();
         }
     }
 
