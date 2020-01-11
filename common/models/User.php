@@ -134,11 +134,10 @@ class User extends ActiveRecord implements IdentityInterface
      * @param int $id
      * @return static|null
      */
-    public static function findById($id)
+    public static function findById($id, $asArray = false)
     {
-        return static::findOne([
-            'id' => $id
-        ]);
+        $state = self::find()->where(['id' => $id]);
+        return $asArray ? $state->asArray()->one() : $state->one();
     }
 
     /**
@@ -220,6 +219,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    public function generateMessageHash()
+    {
+        $this->message_hash = Yii::$app->security->generateRandomString(rand(128, 255));
     }
 
     /**
