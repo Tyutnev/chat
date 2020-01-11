@@ -151,6 +151,13 @@ class User extends ActiveRecord implements IdentityInterface
                              scalar();
     }
 
+    public static function findIdByMessageHash($message_hash)
+    {
+        return self::find()->select(['id'])->
+                             where(['message_hash' => $message_hash])->
+                             scalar();
+    }
+
     /**
      * Finds out if password reset token is valid
      *
