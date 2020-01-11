@@ -23,6 +23,8 @@ class Message extends ActiveRecord
 
     const IS_LAST = ['is_last' => 1];
 
+    const NOT_DELETE = ['!=', 'message.status', self::STATUS_DELETE];
+
     const LIMIT = 10;
 
     public static function tableName()
@@ -61,7 +63,7 @@ class Message extends ActiveRecord
         $state = self::find()->where(['id_sender' => Yii::$app->user->getId()])->
                                orWhere(['id_recipient' => Yii::$app->user->getId()])->
                                andWhere(self::IS_LAST)->
-                               andWhere(['!=', 'message.status', self::STATUS_DELETE]);
+                               andWhere(self::NOT_DELETE);
         
         if($pivot) $state->andWhere(['<', 'message.id', $pivot]);
 
@@ -83,20 +85,20 @@ class Message extends ActiveRecord
         return $lastMessages;
     }
 
-    public static function getMessages($hash_user, $pivot = null)
+    public static function getMessages($hash, $pivot = null)
     {
-        $user = User::findIdByAuthKey($hash_user);
-        if(!$user) return null;
+        $id = User::findIdByMessageHash($hash);
+        if(!$id) return null;
 
         $state = self::find()->where(['id_sender' => Yii::$app->user->getId()])->
-                               andWhere(['id_recipient' => $user->id])->
-                               orWhere(['id_sender' => $user->id])->
-                               andWhere(['id_recipient' => Yii::$app->user->getId()]);
+                               orWhere(['id_sender' => $id])->
+                               andWhere(['id_recipient' => Yii::$app->user->getId()])->
+                               orWhere(['id_recipient' => $id])->
+                               andWhere(self::NOT_DELETE);
         
         if($pivot) $state->andWhere(['<', 'message.id', $pivot]);
 
-        return $state->orderBy(['id' => SORT_DESC])->
-                       limit(self::LIMIT)->
+        return $state->limit(self::LIMIT)->
                        asArray()->
                        all();
     }
