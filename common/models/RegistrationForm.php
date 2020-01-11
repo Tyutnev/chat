@@ -41,6 +41,7 @@ class RegistrationForm extends Model
             $user->email = $this->email;
             $user->status = User::STATUS_ACTIVE;
             $user->generateAuthKey();
+            $user->generateMessageHash();
 
             if($result = $user->save())
             {
