@@ -46,7 +46,7 @@ class ChatController extends Controller
         if(Yii::$app->request->isAjax)
         {
             echo json_encode(Message::getMessages(
-                Yii::$app->request->get('hash_user'),
+                Yii::$app->request->get('hash'),
                 Yii::$app->request->get('pivot')
             ));
             return;
