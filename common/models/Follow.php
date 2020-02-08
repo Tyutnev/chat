@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use common\models\User;
 
 class Follow extends ActiveRecord
 {
@@ -57,15 +58,26 @@ class Follow extends ActiveRecord
     /**
      * @return array
      */
-    public static function getFriends()
+    public static function getFriends($pivot = null)
     {
         $currentUser = Yii::$app->user->getId();
 
-        $friendsList = self::find()->where(['id_sender' => $currentUser])->
+        $followList = self::find()->where(['id_sender' => $currentUser])->
                             orWhere(['id_recipient' => $currentUser])->
                             andWhere(['status' => self::STATUS_FRENDS])->
-                            limit(self::LIMIT_LIST_FRENDS)->
-                            all();
+                            limit(self::LIMIT_LIST_FRENDS);
+
+        if($pivot) $followList->where(['id', '<', $pivot]);
+        
+        $followList = $followList->orderBy(['id' => SORT_DESC])->all();
+
+        $friendList = [];
+        foreach($followList as $follow)
+        {
+            $friendList[] = $follow->getInfoAboutUser(true);
+        }
+
+        return $friendList;
     }
 
     /**
@@ -80,5 +92,19 @@ class Follow extends ActiveRecord
         ];
 
         return $messageList[$this->status];
+    }
+
+    public function getInfoAboutUser($asArray = false)
+    {
+        if($this->id_sender != Yii::$app->user->getId())
+        {
+            $target = $this->id_sender;
+        }
+        else
+        {
+            $target = $this->id_recipient;
+        }
+
+        return User::findById($target, $asArray);
     }
 }

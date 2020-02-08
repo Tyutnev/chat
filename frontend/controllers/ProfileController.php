@@ -46,4 +46,12 @@ class ProfileController extends Controller
             echo json_encode(Follow::getOrders(Yii::$app->user->getId()));
         }
     }
+
+    public function actionFriends()
+    {
+        if(Yii::$app->request->isAjax)
+        {
+            echo json_encode(Follow::getFriends((int)Yii::$app->request->get('pivot')));
+        }
+    }
 }

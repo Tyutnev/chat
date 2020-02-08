@@ -23,8 +23,12 @@
                 <?php endif; ?>
             </div>
             <div class="profile-userbuttons">
-                <?php if($model->canFollow() && ($follow = $model->getFollow())): ?>
+                <?php if($model->canFollow()): ?>
+                    <?php if($follow = $model->getFollow()): ?>
                     <button type="button" class="btn btn-success btn-sm"><?= $follow->getStatus() ?></button>
+                    <?php else: ?>
+                        <button type="button" class="btn btn-success btn-sm btn-follow" href="<?= $model->id ?>">Follow</button>
+                    <?php endif; ?>
                 <?php endif; ?>
                 <button type="button" class="btn btn-danger btn-sm btn-chat" href="<?= $model->id ?>">Message</button>
             </div>

@@ -51,3 +51,28 @@ $('.list-order').click((event) => {
     })
     return false;
 });
+
+$('.list-friends').click((event) => {
+    $('.container-profile').empty();
+
+    $.ajax({
+        type: 'GET',
+        url: '/profile/friends',
+        data: {
+            'pivot': false
+        },
+        success: (html) => {
+            html = JSON.parse(html);
+
+            html.filter((item) => {
+                $('.container-list-friends').append(`
+                    <div class="friend">
+                        <h2>${item.username}</h2>
+                    </div>
+                `);
+            })
+        }
+    })
+
+    return false;
+});
