@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 class Follow extends ActiveRecord
@@ -21,6 +22,11 @@ class Follow extends ActiveRecord
      */
     const STATUS_FRENDS = 3;
 
+    /**
+     * Количества элементов в выборке списка друзей
+     */
+    const LIMIT_LIST_FRENDS = 10;
+
     public static function tableName()
     {
         return '{{follow}}';
@@ -28,6 +34,7 @@ class Follow extends ActiveRecord
 
     /**
      * Получение списка заявок в друзья
+     * @return array
      */
     public static function getOrders($id_recipient)
     {
@@ -39,24 +46,39 @@ class Follow extends ActiveRecord
                              all();
     }
 
+    /**
+     * @return object
+     */
     public static function getOrderById($id)
     {
         return self::find()->where(['id' => $id])->one();
     }
 
+    /**
+     * @return array
+     */
+    public static function getFriends()
+    {
+        $currentUser = Yii::$app->user->getId();
+
+        $friendsList = self::find()->where(['id_sender' => $currentUser])->
+                            orWhere(['id_recipient' => $currentUser])->
+                            andWhere(['status' => self::STATUS_FRENDS])->
+                            limit(self::LIMIT_LIST_FRENDS)->
+                            all();
+    }
+
+    /**
+     * @return string
+     */
     public function getStatus()
     {
-        if($this->status == self::STATUS_ORDER)
-        {
-            return 'Заявка в друзья отправлена';
-        }
-        if($this->status == self::STATUS_DECLINED)
-        {
-            return 'Пользователь отклонил заявку';
-        }
-        if($this->status == self::STATUS_FRENDS)
-        {
-            return 'У вас в друзьях';
-        }
+        $messageList = [
+            self::STATUS_ORDER => 'Заявка в друзья отправлена',
+            self::STATUS_DECLINED => 'Пользователь отклонил заявку',
+            self::STATUS_FRENDS => 'У вас в друзьях'
+        ];
+
+        return $messageList[$this->status];
     }
 }
