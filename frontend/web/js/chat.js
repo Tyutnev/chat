@@ -32,7 +32,7 @@ const getLastMessage = (event) => {
 
             html.filter((item) => {
                 $('.inbox_chat').append(`
-                    <div class="chat_list" data-id="${item.id}" data-hash="${item.user.message_hash}">
+                    <div class="chat_list" data-hash="${item.user.message_hash}">
                     <div class="chat_people">
                     <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                     <div class="chat_ib">
@@ -98,5 +98,12 @@ $('.inbox_chat').click((event) => {
         $('.msg_history').empty();
         getMessages(hash);
     }
-
 });
+
+$('.msg_send_btn').click((event) => {
+    socket.send(JSON.stringify({
+        header: 'message-send',
+        hash_recipient: $('.active_chat').attr('data-hash'),
+        content: $('#message-content').val()
+    }))
+})
