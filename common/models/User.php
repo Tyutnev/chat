@@ -175,6 +175,13 @@ class User extends ActiveRecord implements IdentityInterface
         return $timestamp + $expire >= time();
     }
 
+    public static function getLastUser()
+    {
+        return self::find()->limit(1)->
+                             orderBy(['id' => SORT_DESC])->
+                             one();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -267,12 +274,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->id != Yii::$app->user->getId();
     }
-
-    public function isFriend($id)
+    
+    public function getFollow()
     {
-        return Follow::find()->where(['id_sender' => $id])->
-                          orWhere(['id_recipient' => $id])->
-                          one();    
+        $authUser = Yii::$app->user->getId();
+
+        return  Follow::find()->where(['id_sender' => $this->id])->
+                               orWhere(['id_sender' => $authUser])->
+                               andWhere(['id_recipient' => $authUser])->
+                               orWhere(['id_recipient' => $this->id])->
+                               one();
     }
 
     public function isOnline()
@@ -283,12 +294,5 @@ class User extends ActiveRecord implements IdentityInterface
     public function getExitDate()
     {
         return Connect::getConnect($this->id)->exit_date;
-    }
-
-    public static function getLastUser()
-    {
-        return self::find()->limit(1)->
-                             orderBy(['id' => SORT_DESC])->
-                             one();
     }
 }

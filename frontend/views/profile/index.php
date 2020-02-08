@@ -35,6 +35,11 @@
                         Заявки в друзья </a>
                     </li>
                     <li>
+                        <a href="/follow-order" class="list-friends">
+                        <i class="glyphicon glyphicon-user"></i>
+                        Друзья </a>
+                    </li>
+                    <li>
                         <a href="/exit">
                         <i class="glyphicon glyphicon-ok"></i>
                         Выход </a>
@@ -46,5 +51,9 @@
 </div>
 
 <div class="container-profile container-list-follow">
+
+</div>
+
+<div class="container-profile container-list-friends">
 
 </div>

@@ -23,10 +23,17 @@
                 <?php endif; ?>
             </div>
             <div class="profile-userbuttons">
-                <?php if($follow = $model->isFriend(Yii::$app->user->getId())): ?>
+                <!--
+                <?php //if($follow = $model->isFriend(Yii::$app->user->getId())): ?>
+                    <button type="button" class="btn btn-success btn-sm"><?php //$follow->getStatus() ?></button>
+                <?php //elseif($model->canFollow()): ?>
+                    <button type="button" class="btn btn-success btn-sm btn-follow" href="<?php //$model->id ?>">Follow</button>
+                <?php //endif; ?>
+                <button type="button" class="btn btn-danger btn-sm btn-chat" href="<?php //$model->id ?>">Message</button>
+                -->
+
+                <?php if($model->canFollow() && ($follow = $model->getFollow())): ?>
                     <button type="button" class="btn btn-success btn-sm"><?= $follow->getStatus() ?></button>
-                <?php elseif($model->canFollow()): ?>
-                    <button type="button" class="btn btn-success btn-sm btn-follow" href="<?= $model->id ?>">Follow</button>
                 <?php endif; ?>
                 <button type="button" class="btn btn-danger btn-sm btn-chat" href="<?= $model->id ?>">Message</button>
             </div>
